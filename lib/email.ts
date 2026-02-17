@@ -33,7 +33,7 @@ export async function sendVerificationEmail(
             text: `Your Verification Code is: ${code}`,
             html: `
         <div style="font-family: Arial, sans-serif; padding: 20px; background-color: #1f2937; color: #ffffff;">
-          <h2 style="color: #ff7c00;">Virtual Try-On Verification</h2>
+          <h2 style="color: #ff7c00;">Attira Demo Verification</h2>
           <p>Your verification code is:</p>
           <h1 style="color: #ff7c00; font-size: 32px; letter-spacing: 5px;">${code}</h1>
           <p style="color: #9ca3af;">This code will expire in 10 minutes.</p>

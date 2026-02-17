@@ -4,6 +4,8 @@ import { deleteFromCloudinary } from '@/lib/cloudinary';
 
 const MODAL_API_URL = process.env.MODAL_API_URL || 'https://me240003014--tryon-inference-fastapi-app.modal.run/generate';
 
+// Extend serverless function timeout for Vercel (default is 10s, Modal API can take 60+s)
+export const maxDuration = 300;
 export async function POST(request: NextRequest) {
     let subjectPublicId: string | null = null;
     let garmentPublicId: string | null = null;

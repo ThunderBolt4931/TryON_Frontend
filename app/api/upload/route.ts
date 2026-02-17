@@ -1,6 +1,9 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { uploadToCloudinary } from '@/lib/cloudinary';
 
+// Extend timeout for large file uploads
+export const maxDuration = 60;
+
 export async function POST(request: NextRequest) {
     try {
         const formData = await request.formData();

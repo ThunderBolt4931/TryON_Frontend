@@ -94,7 +94,7 @@ export default function LoginPage() {
         <div className={styles.leftPanel}>
           <div className={styles.contentBox}>
             <h1 className={styles.title}>
-              Virtual Try-On
+              Attira Demo
               <br />
               <span className="highlight">AI Studio</span>
             </h1>

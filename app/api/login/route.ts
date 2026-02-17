@@ -23,18 +23,43 @@ export async function POST(request: NextRequest) {
         }
 
         // Store/update user in database
-        const { error } = await supabase
+        // First check if user exists
+        const { data: existingUser } = await supabase
             .from('users')
-            .upsert({
-                email,
-                name,
-                verification_code: code,
-                last_login: new Date().toISOString(),
-            }, { onConflict: 'email' });
+            .select('email')
+            .eq('email', email)
+            .single();
 
-        if (error) {
-            console.error('Supabase Error:', error);
-            throw new Error(error.message);
+        let dbError;
+        if (existingUser) {
+            // Update existing user (don't touch generation_count or last_reset_time)
+            const { error } = await supabase
+                .from('users')
+                .update({
+                    name,
+                    verification_code: code,
+                    last_login: new Date().toISOString(),
+                })
+                .eq('email', email);
+            dbError = error;
+        } else {
+            // Insert new user with default values
+            const { error } = await supabase
+                .from('users')
+                .insert({
+                    email,
+                    name,
+                    verification_code: code,
+                    last_login: new Date().toISOString(),
+                    generation_count: 0,
+                    last_reset_time: new Date().toISOString(),
+                });
+            dbError = error;
+        }
+
+        if (dbError) {
+            console.error('Supabase Error:', dbError);
+            throw new Error(dbError.message);
         }
 
         return NextResponse.json({ success: true, message: 'Code sent!' });
